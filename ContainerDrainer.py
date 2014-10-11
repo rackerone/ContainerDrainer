@@ -43,7 +43,7 @@ def confirm(username, apikey, myregion, mycontainer, public, runonce, loglevel, 
     print("API Key: %s" % apikey)
     print("Region: %s" % myregion)
     print("Target Container: %s" % mycontainer)
-    print("Use ServiceNet: %s" % public)
+    print("Use publicNet: %s" % public)
     print("Run Once: %s" % runonce)
     print("Log Level: %s" % loglevel)
     print("Concurrency Level: %s" % concurrency)
@@ -112,7 +112,7 @@ if __name__ == "__main__":
         help='This is the region where your $CONTAINER is located', dest='region')
     parser.add_argument('--container', '-c', action='store', type=str,
         required=True, help='This is the container $NAME.  This container will be permanently deleted!!', dest='container')
-    parser.add_argument('--snet', action='store_true', default=False, required=False, dest='snet',
+    parser.add_argument('--snet', action='store_false', default=True, required=False, dest='snet',
         help='If your cloud server is in the same region as your container, this flag will use serviceNet')
     parser.add_argument('--run-once', action='store_true', required=False, default=False, dest='runonce',
         help='Delete a single batch of up to 10,000 objects and then exit')
@@ -123,11 +123,12 @@ if __name__ == "__main__":
     api_key = args.key
     my_region = args.region.upper()
     my_container = args.container
-    sNet = args.snet
-    if sNet:
-        public = False
-    else:
-        public = True
+    #sNet = args.snet
+    public = args.snet
+    # if sNet:
+    #     public = False
+    # else:
+    #     public = True
     #for testing purposes, set 'RUN_ONCE' to True if you want to time a run deleting (a maximum of) 10,000 objects only
     RUN_ONCE = args.runonce
     #Set the logging level
